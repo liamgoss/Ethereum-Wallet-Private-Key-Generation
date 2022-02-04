@@ -5,13 +5,13 @@ I created this code in order to learn more about secp256k1 and how wallets and p
 
 Although inconceivably small, it is not impossible. As such, I included a way to query the wallet's `Ether` value on [Etherscan.io](https://etherscan.io/) just for fun. The amount of public/private keys you can generate is dependent on your hardware's capabilities. And the amount of wallets you can query on Etherscan is dependent on your internet speeds and API plan.
 
-##Privacy Matters! 
+## Privacy Matters! 
 This code is also useful for creating your own Ethereum mainnet compatible address and private key without the need for a third party like Metamask!
 Did you know that when you have multiple accounts in your Metamask wallet, it uses the same api key across all your accounts? So any accounts in your Metamask can easily be linked together and then linked to you! 
 
 With this code, you can create your address and private key without anyone knowing that the address is your's! Tornado and other anonymization services are great, but since you can generate hundreds of thousands of addresses within seconds, you could chain together a network of unknown, never before seen wallets to keep yourself private online!
 
-### Usage
+## Usage
 
 V1 of this code consists of my first attempt at generating values using the `secrets` Python module along with some commented notes.
 V2 of this code is the newest version of the code with all aforementioned features.
@@ -23,7 +23,7 @@ Inside of V2, rename `env.example` to `.env` and fill out all desired values
 - `AMOUNT_TO_GENERATE` is an integer value for how many wallet addresses and private keys you want to generate *Note: All of these, if the check balance option in the code is set to True, will be sent to Etherscan in batches of 20. This could take a long time, and could likely exceed your API plan's limits!*
 
 
-###Sample Output
+### Sample Output
 ```
 Generating Ethereum Wallet Lists...
 100% |########################################################################|
