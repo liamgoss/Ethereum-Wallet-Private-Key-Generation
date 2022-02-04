@@ -1,7 +1,9 @@
 # Wallet Generation (Proof of Concept)
 **This code is for educational purposes only, I am not responsible for any misuse of this code**
 
-I created this code in order to learn more about secp256k1 and how wallets and private keys are generated. All of these wallets generated can be imported into Metamask because they are valid wallets and can be viewed on Etherscan. However, the odds of guessing a bitcoin private key is 1/10,000,000,000,000,000,000,000,000,000,000,000,000.
+I created this code in order to learn more about secp256k1 and how wallets and private keys are generated. All of these wallets generated can be imported into Metamask because they are valid wallets and can even be viewed on Etherscan. These addresses are unique (given how the algorithm works), however, the odds of guessing a bitcoin private key are 1/10,000,000,000,000,000,000,000,000,000,000,000,000 - improbable, but not impossible!
+
+**This code is also useful for creating your own Ethereum mainnet compatible address and private key without the need for a third party like Metamask!**
 
 Although inconceivably small, it is not impossible. As such, I included a way to query the wallet's `Ether` value on [Etherscan.io](https://etherscan.io/) just for fun. The amount of public/private keys you can generate is dependent on your hardware's capabilities. And the amount of wallets you can query on Etherscan is dependent on your internet speeds and API plan.
 
