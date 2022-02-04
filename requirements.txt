@@ -1,0 +1,6 @@
+blocksmith==1.2.1
+etherscan==0.3.0
+etherscan_python==2.1.0
+progressbar33==2.4
+pycryptodome==3.14.0
+python-dotenv==0.19.2

@@ -1,0 +1,32 @@
+# Wallet Generation (Proof of Concept)
+**This code is for educational purposes only, I am not responsible for any misuse of this code**
+
+I created this code in order to learn more about secp256k1 and how wallets and private keys are generated. All of these wallets generated can be imported into Metamask because they are valid wallets and can be viewed on Etherscan. However, the odds of guessing a bitcoin private key is 1/10,000,000,000,000,000,000,000,000,000,000,000,000.
+
+Although inconceivably small, it is not impossible. As such, I included a way to query the wallet's `Ether` value on [Etherscan.io](https://etherscan.io/) just for fun. The amount of public/private keys you can generate is dependent on your hardware's capabilities. And the amount of wallets you can query on Etherscan is dependent on your internet speeds and API plan.
+
+V1 of this code consists of my first attempt at generating values using the `secrets` Python module along with some commented notes.
+V2 of this code is the newest version of the code with all aforementioned features.
+
+### Usage
+
+Inside of V2, rename `env.example` to `.env` and fill out all desired values
+- `ETHERSCAN_API_KEY` corresponds to the API generated for your account from [Etherscan.io](https://etherscan.io/)
+- `SEARCH_ADDRESSES` is a string of comma separated wallet addresses (on the Ethereum mainnet) that, if the private key is generated for (near impossible, see odds above), you would like to be notified of in the output. Leave blank or put in a random address if unused.
+- `AMOUNT_TO_GENERATE` is an integer value for how many wallet addresses and private keys you want to generate *Note: All of these, if the check balance option in the code is set to True, will be sent to Etherscan in batches of 20. This could take a long time, and could likely exceed your API plan's limits!*
+
+
+###Sample Output
+```
+Generating Ethereum Wallet Lists...
+100% |########################################################################|
+-----Generated 1000 unique addresses-----
+-----Divided list into 50 sets of 20 addresses-----
+Checking Ether Values...
+-----Process completed!-----                               ]   4% ETA:  0:08:17
+_____STATS_____
+Amount of wallets generated:  1000  
+Amount of valuable wallets found:  0
+Amount of wallets not checked: 0        [Due to Etherscan.io rate limiting]
+Time Elapsed (seconds): 26.347535371780396
+```
