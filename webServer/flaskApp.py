@@ -21,7 +21,7 @@ def runGeneration():
 def runGenCheck():
     runAll()
     redirect('/')
-
+ 
 @app.route('/', defaults={'req_path': ''})
 @app.route('/<path:req_path>')
 

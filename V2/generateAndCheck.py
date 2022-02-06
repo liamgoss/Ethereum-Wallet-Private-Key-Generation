@@ -170,7 +170,7 @@ def generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, 
         # bal is unused unless you use the code snippet commented out below
         # printVals will print every single address and private key generated (which is useful for piping into files) but can mess up the progress bar's display (nonfatal issue)
         # This function saves addresses to the global lists rather than local lists, this way we can return specific values such as a searchable wallet address's private key while also being able to access these generated values outside of the function
-
+ 
         # I noticed there was some weird behavior when bal and saveAll where both true, so for now I just avoid that use case
         if saveAll and bal:
             sys.exit("bal and saveAll conflict when both true (for now)")
