@@ -1,0 +1,1 @@
+this file is placed here just to create the static directory

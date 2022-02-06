@@ -23,6 +23,11 @@ Inside of V2, rename `env.example` to `.env` and fill out all desired values
 - `AMOUNT_TO_GENERATE` is an integer value for how many wallet addresses and private keys you want to generate *Note: All of these, if the check balance option in the code is set to True, will be sent to Etherscan in batches of 20. This could take a long time, and could likely exceed your API plan's limits!*
 
 
+The Flask web server will present all output files (if `OUTPUT_TO_FILE=True` is present in your `.env` file). This way you can configure this script to run on a server (you can setup automation via CRON if desired or just simply send a GET request) and you'll be able to view all outputs
+
+The script can be via Flask run by sending a GET request (or visiting) to `127.0.0.5000/runGeneration` or `127.0.0.5000/runGenCheck`
+You can port forward 5000 so that you can run this remotely.  
+
 ### Sample Output
 ```
 Generating Ethereum Wallet Lists...
