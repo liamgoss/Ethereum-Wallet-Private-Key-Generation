@@ -122,18 +122,20 @@ def checkBalances():
     # Setting ProgressBar's maxval is important because the progress bar defaults to being filled at value 100, so if we generate more than 100 wallets, we need to make sure the progress bar won't throw an error
     pbar_Large = ProgressBar(widgets=[Bar('>', '[', ']'), ' ',
                                                 Percentage(), ' ',
-                                                ETA()],maxval=amountToGen).start()
+                                                ETA()],maxval=amountToGen/n).start()
     failedCount = 0
     for i in range(len(dividedList)):
         try:
+            # TODO: Can we implement the same API functionality for Binance Smart Chain and the Polygon mainnet? 
             setOfNBalances = eth.get_eth_balance_multiple(dividedList[i])
-        except JSONDecodeError:
+        except: #except JSONDecodeError: # It's a better practice to specify that specific error, 
+            #                               but there may be errors returned by Etherscan I haven't seen yet so let's catch them all
             # We simply wait and retry the request half a second later just in case we sent too many requests
             # You can increase, decrease, or remove this delay but I figured 0.5s is not a *ton* of added time (depends on how many wallets, of course)
             time.sleep(0.5)
             try:
                 setOfNBalances = eth.get_eth_balance_multiple(dividedList[i])
-            except JSONDecodeError:
+            except: #except JSONDecodeError:
                 failedCount = failedCount + 1
                 pass
         
@@ -145,13 +147,20 @@ def checkBalances():
                 index = savedAddresses.index(setOfNBalances[j]['account'])
                 print(f"{savedAddresses[index]}\t{savedKeys[index]}\tBalance: {setOfNBalances[j]['balance']} Ether")
         pbar_Large.update(i)
+    # There may be an error where it claims to have completed but it stops at like 4%? 
+    # The issue was due to the maximum value being set to what we generate but I overlooked the fact that I am dividing the calls by n
+    #       This has since be fixed
     
-    print(f"-----Process completed!-----")
+    # The amount of API calls on etherscan.io doesn't seem to align with how many calls we should be making
+    # Either my understanding of this is wrong or somehow my code to detect failed calls is flawed
+    pbar_Large.finish()
+    print(f"\n-----Process completed!-----")
     print("_____STATS_____")
     print("Amount of wallets generated: ", amountToGen)
     print("Amount of valuable wallets found: ", hits)
-    print(f"Amount of wallets not checked: {failedCount}\t[Due to Etherscan.io rate limiting]")
-
+    # Multiply failedCount by n because one failed call = n addresses failed to be checked
+    print(f"Amount of wallets not checked: {failedCount * n}\t[Due to Etherscan.io rate limiting]")
+    
 
 start = time.time()
 generateWallets(amount=amountToGen, bal=False, search=searchAddresses, printVals=False, saveAll=True)

@@ -26,14 +26,15 @@ Inside of V2, rename `env.example` to `.env` and fill out all desired values
 ### Sample Output
 ```
 Generating Ethereum Wallet Lists...
-100% |########################################################################|
+100% |#####################################################################################|
 -----Generated 1000 unique addresses-----
 -----Divided list into 50 sets of 20 addresses-----
 Checking Ether Values...
------Process completed!-----                               ]   4% ETA:  0:08:17
+[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 100% Time: 0:00:29
+
+-----Process completed!-----
 _____STATS_____
-Amount of wallets generated:  1000  
+Amount of wallets generated:  1000
 Amount of valuable wallets found:  0
-Amount of wallets not checked: 0        [Due to Etherscan.io rate limiting]
-Time Elapsed (seconds): 26.347535371780396
+Amount of wallets not checked: 0        [Due t
 ```
