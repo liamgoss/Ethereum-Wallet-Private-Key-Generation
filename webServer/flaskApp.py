@@ -6,19 +6,21 @@ cwd = os.getcwd()
 sys.path.insert(0, os.path.join(cwd, 'V2'))
 from generateAndCheck import runAll, runGen
 
-runGen()
-
 app = Flask(__name__)
 # Customize these two to your liking
 # TODO: have an option to run indiviual testing to make the output prettier
 #       or iterate through all balances and print them like the above code would have
 @app.route("/runGeneration")
 def runGeneration():
+    # TODO: URGENT! Implement threading to fix signaling issue
+    # ValueError: signal only works in main thread of the main interpreter
     runGen()
+    redirect('/')
 
 @app.route("/runGenCheck")
 def runGenCheck():
     runAll()
+    redirect('/')
 
 @app.route('/', defaults={'req_path': ''})
 @app.route('/<path:req_path>')

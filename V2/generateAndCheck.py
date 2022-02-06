@@ -174,7 +174,7 @@ def generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, 
         # I noticed there was some weird behavior when bal and saveAll where both true, so for now I just avoid that use case
         if saveAll and bal:
             sys.exit("bal and saveAll conflict when both true (for now)")
-        outFile.write("Generating Ethereum Wallet Lists...")
+        outFile.write("Generating Ethereum Wallet Lists...\n")
         for i in pbar(range(amount)):
             privateKey = generatePrivateKey()
             walletAddress = privateKeyToEthereumWallet(privateKey)
@@ -203,10 +203,11 @@ def generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, 
                     pass
             '''
             if walletAddress in search:
-                outFile.write("WALLET FOUND")
-                outFile.write(f"Wallet Address: {walletAddress}")
-                outFile.write(f"Private Key: {privateKey}")
+                outFile.write("\nWALLET FOUND")
+                outFile.write(f"\nWallet Address: {walletAddress}")
+                outFile.write(f"\nPrivate Key: {privateKey}")
                 return walletAddress, privateKey
+        outFile.write("\n-----GENERATION COMPLETE-----\n")
 
 def checkBalances_File(unique_filename):
     
