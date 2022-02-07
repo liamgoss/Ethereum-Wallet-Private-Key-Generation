@@ -1,31 +1,31 @@
 from flask import Flask, redirect, render_template, send_file, send_from_directory, url_for, abort
-from threading import Thread
-import os, sys
-
+import os, sys, threading
 
 cwd = os.getcwd()
 sys.path.insert(0, os.path.join(cwd, 'V2'))
 from generateAndCheck import runAll, runGen
 
 app = Flask(__name__)
-# Customize these two to your liking
 # TODO: have an option to run indiviual testing to make the output prettier
 #       or iterate through all balances and print them like the above code would have
+
+# Customize these page names two to your liking
 @app.route("/runGeneration")
+# Upon viewing this page, the command will run and you'll be sent back to the directory page (home)
 def runGeneration():
-    # TODO: URGENT! Implement threading to fix signaling issue
-    # ValueError: signal only works in main thread of the main interpreter
-    runGenThread = Thread(target=runGen)
+    runGenThread = threading.Thread(target=runGen)
     runGenThread.start()
-    #runGen()
-    redirect('/')
+    #runGenThread.join() # Uncomment this if you wish to have the page "load" until it's complete
+    return redirect('/')
+    
 
 @app.route("/runGenCheck")
 def runGenCheck():
-    runAllThread = Thread(target=runAll)
+    runAllThread = threading.Thread(target=runAll)
     runAllThread.start()
-    #runAll()
-    redirect('/')
+    #runAllThread.join() # Uncomment this if you wish to have the page "load" until it's complete
+    return redirect('/')
+    
  
 @app.route('/', defaults={'req_path': ''})
 @app.route('/<path:req_path>')

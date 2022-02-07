@@ -291,7 +291,7 @@ def runAll():
         checkBalances()
         end = time.time()
         print("Time Elapsed (seconds):", end - start)
-    return 'OK'
+    
 
 def runGen():
     if intoFile == True:
@@ -305,7 +305,7 @@ def runGen():
         generateWallets(amount=amountToGen, bal=False, search=searchAddresses, printVals=True, saveAll=True)
         end = time.time()
         print("Time Elapsed (seconds):", end - start)
-    return 'OK'
+    
 
 '''
 if __name__ == '__main__':
