@@ -1,6 +1,7 @@
-from cProfile import run
 from flask import Flask, redirect, render_template, send_file, send_from_directory, url_for, abort
+from threading import Thread
 import os, sys
+
 
 cwd = os.getcwd()
 sys.path.insert(0, os.path.join(cwd, 'V2'))
@@ -14,12 +15,16 @@ app = Flask(__name__)
 def runGeneration():
     # TODO: URGENT! Implement threading to fix signaling issue
     # ValueError: signal only works in main thread of the main interpreter
-    runGen()
+    runGenThread = Thread(target=runGen)
+    runGenThread.start()
+    #runGen()
     redirect('/')
 
 @app.route("/runGenCheck")
 def runGenCheck():
-    runAll()
+    runAllThread = Thread(target=runAll)
+    runAllThread.start()
+    #runAll()
     redirect('/')
  
 @app.route('/', defaults={'req_path': ''})
@@ -41,4 +46,4 @@ def dir_listing(req_path):
     return render_template('files.html', files=files)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

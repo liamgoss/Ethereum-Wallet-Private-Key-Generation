@@ -208,6 +208,7 @@ def generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, 
                 outFile.write(f"\nPrivate Key: {privateKey}")
                 return walletAddress, privateKey
         outFile.write("\n-----GENERATION COMPLETE-----\n")
+    
 
 def checkBalances_File(unique_filename):
     
@@ -268,6 +269,7 @@ def checkBalances_File(unique_filename):
         outFile.write(f"\nAmount of valuable wallets found: {hits}")
         # Multiply failedCount by n because one failed call = n addresses failed to be checked
         outFile.write(f"\nAmount of wallets not checked: {failedCount * n}\t[Due to Etherscan.io rate limiting]")
+    
 
 
 
@@ -289,6 +291,7 @@ def runAll():
         checkBalances()
         end = time.time()
         print("Time Elapsed (seconds):", end - start)
+    return 'OK'
 
 def runGen():
     if intoFile == True:
@@ -302,6 +305,7 @@ def runGen():
         generateWallets(amount=amountToGen, bal=False, search=searchAddresses, printVals=True, saveAll=True)
         end = time.time()
         print("Time Elapsed (seconds):", end - start)
+    return 'OK'
 
 '''
 if __name__ == '__main__':
