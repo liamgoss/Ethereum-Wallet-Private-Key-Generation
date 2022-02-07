@@ -41,5 +41,5 @@ Checking Ether Values...
 _____STATS_____
 Amount of wallets generated:  1000
 Amount of valuable wallets found:  0
-Amount of wallets not checked: 0        [Due t
+Amount of wallets not checked: 0        [Due to Etherscan.io rate limiting]
 ```
