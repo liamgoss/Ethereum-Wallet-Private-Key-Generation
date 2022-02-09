@@ -4,7 +4,7 @@ from json import JSONDecodeError
 from platform import java_ver
 from progressbar import ProgressBar, Percentage, Bar, ETA
 from pprint import pprint
-import blocksmith, time, sys, os, uuid
+import blocksmith, time, sys, os, uuid, datetime
 from dotenv import load_dotenv
 from etherscan import Etherscan
 
@@ -225,7 +225,7 @@ def checkBalances_File(unique_filename):
         # n will be how many addresses you want queried at a time (MAX: 20)
         n = 20
         dividedList = [savedAddresses[i * n:(i + 1) * n] for i in range((len(savedAddresses) + n - 1) // n )]
-        outFile.write(f"-----Generated {amountToGen} unique addresses-----")
+        outFile.write(f"\n-----Generated {amountToGen} unique addresses-----")
         outFile.write(f"-----Divided list into {len(dividedList)} sets of {n} addresses-----")
         outFile.write("Checking Ether Values...")
         # hits will hold the number of addresses that had Ether in them, if any
@@ -282,7 +282,8 @@ def checkBalances_File(unique_filename):
 # These functions are used to be imported to streamline the flask implementation
 def runAll():
     if intoFile == True:
-        unique_filename = "webServer/static/" + str(uuid.uuid4()) + '.log'
+        time_now  = datetime.datetime.now().strftime('%m_%d_%Y_%H_%M_%S__') 
+        unique_filename = "webServer/static/" + time_now+ str(uuid.uuid4()) + '.log'
         start = time.time()
         generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, printVals=True, saveAll=True, unique_filename=unique_filename)
         checkBalances_File(unique_filename)
@@ -298,7 +299,8 @@ def runAll():
 
 def runGen():
     if intoFile == True:
-        unique_filename = "webServer/static/" + str(uuid.uuid4()) + '.log'
+        time_now  = datetime.datetime.now().strftime('%m_%d_%Y_%H_%M_%S__') 
+        unique_filename = "webServer/static/" + time_now+ str(uuid.uuid4()) + '.log'
         start = time.time()
         generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, printVals=True, saveAll=True, unique_filename=unique_filename)
         end = time.time()
