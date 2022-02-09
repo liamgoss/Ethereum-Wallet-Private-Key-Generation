@@ -7,6 +7,8 @@ from pprint import pprint
 import blocksmith, time, sys, os, uuid
 from dotenv import load_dotenv
 from etherscan import Etherscan
+
+
 ##############################################
 # Author: https://github.com/liamgoss        #
 # This code is for educational purposes only #
@@ -21,6 +23,7 @@ load_dotenv()
 eth = Etherscan(os.environ.get("ETHERSCAN_API_KEY"))
 searchAddresses = os.environ.get('SEARCH_ADDRESSES')
 intoFile = bool(os.environ.get('OUTPUT_TO_FILE'))
+
 
 if len(searchAddresses) == 0:
     # No search addresses provided
