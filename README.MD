@@ -1,3 +1,6 @@
+# THE REQUIREMENTS ARE MESSED UP 
+ I was only able to make it run by running several uninstall and install commands, it is not plug-and-play at the moment. I will work on this
+
 # Wallet Generation (Proof of Concept)
 **This code is for educational purposes only, I am not responsible for any misuse of this code**
 
