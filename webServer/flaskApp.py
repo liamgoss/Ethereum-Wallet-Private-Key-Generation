@@ -25,7 +25,7 @@ def runGeneration():
 def runGenCheck():
     runAllThread = threading.Thread(target=runAll)
     runAllThread.start()
-    runAllThread.join() # Uncomment this if you wish to have the page "load" until it's complete
+    #runAllThread.join() # Uncomment this if you wish to have the page "load" until it's complete
     return redirect('/')
 
 

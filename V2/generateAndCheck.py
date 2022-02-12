@@ -178,7 +178,7 @@ def generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, 
         if saveAll and bal:
             sys.exit("bal and saveAll conflict when both true (for now)")
         outFile.write("Generating Ethereum Wallet Lists...\n")
-        for i in pbar(range(amount)):
+        for i in range(amount):
             privateKey = generatePrivateKey()
             walletAddress = privateKeyToEthereumWallet(privateKey)
             if printVals == True:
@@ -209,13 +209,14 @@ def generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, 
                 outFile.write("\nWALLET FOUND")
                 outFile.write(f"\nWallet Address: {walletAddress}")
                 outFile.write(f"\nPrivate Key: {privateKey}")
-                return walletAddress, privateKey
+                #return walletAddress, privateKey
         outFile.write("\n-----GENERATION COMPLETE-----\n")
     
 
 def checkBalances_File(unique_filename):
     
     with open(unique_filename, 'a') as outFile:
+        print(f"opened: {outFile}")
         # We can check the balances inside of the generateWallets() function but this allows for more speed and more flexibility by checking them after the fact
         # As of now, when you call generateWallets(), saveAll must be set to true in order to use this function on those addresses
 
@@ -231,10 +232,6 @@ def checkBalances_File(unique_filename):
         # hits will hold the number of addresses that had Ether in them, if any
         hits = 0
 
-        # Setting ProgressBar's maxval is important because the progress bar defaults to being filled at value 100, so if we generate more than 100 wallets, we need to make sure the progress bar won't throw an error
-        pbar_Large = ProgressBar(widgets=[Bar('>', '[', ']'), ' ',
-                                                    Percentage(), ' ',
-                                                    ETA()],maxval=amountToGen/n).start()
         failedCount = 0
         for i in range(len(dividedList)):
             try:
@@ -258,14 +255,8 @@ def checkBalances_File(unique_filename):
                     hits = hits + 1
                     index = savedAddresses.index(setOfNBalances[j]['account'])
                     outFile.write(f"{savedAddresses[index]}\t{savedKeys[index]}\tBalance: {setOfNBalances[j]['balance']} Ether")
-            pbar_Large.update(i)
-        # There may be an error where it claims to have completed but it stops at like 4%? 
-        # The issue was due to the maximum value being set to what we generate but I overlooked the fact that I am dividing the calls by n
-        #       This has since be fixed
+            
         
-        # The amount of API calls on etherscan.io doesn't seem to align with how many calls we should be making
-        # Either my understanding of this is wrong or somehow my code to detect failed calls is flawed
-        pbar_Large.finish()
         outFile.write(f"\n-----Process completed!-----")
         outFile.write("\n_____STATS_____")
         outFile.write(f"\nAmount of wallets generated: {amountToGen}")
@@ -283,7 +274,7 @@ def checkBalances_File(unique_filename):
 def runAll():
     if intoFile == True:
         time_now  = datetime.datetime.now().strftime('%m_%d_%Y_%H_%M_%S__') 
-        unique_filename = "webServer/static/" + time_now+ str(uuid.uuid4()) + '.log'
+        unique_filename = "webServer/static/" + time_now + str(uuid.uuid4()) + '.log'
         start = time.time()
         generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, printVals=True, saveAll=True, unique_filename=unique_filename)
         checkBalances_File(unique_filename)
