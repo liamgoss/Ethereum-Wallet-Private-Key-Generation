@@ -4,7 +4,7 @@ import os, sys, threading
 
 cwd = os.getcwd()
 sys.path.insert(0, os.path.join(cwd, 'V2'))
-from generateAndCheck import runAll, runGen
+from generateAndCheck import runAll, runGen, runTransCount
 
 app = Flask(__name__)
 # TODO: have an option to run indiviual testing to make the output prettier
@@ -26,6 +26,13 @@ def runGenCheck():
     runAllThread = threading.Thread(target=runAll)
     runAllThread.start()
     #runAllThread.join() # Uncomment this if you wish to have the page "load" until it's complete
+    return redirect('/')
+
+@app.route("/runGenTrans")
+def runGenTrans():
+    runTransThread = threading.Thread(target=runTransCount)
+    runTransThread.start()
+    #runTransThread.join() # Uncomment this if you wish to have the page "load" until it's complete
     return redirect('/')
 
 

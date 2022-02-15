@@ -168,7 +168,7 @@ def checkBalances():
 
 
 
-def generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, printVals=False, saveAll=True, unique_filename="ERROR-NONAME.log"):
+def generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, printVals=False, saveAll=True, unique_filename="ERROR-NONAME.log", count=False):
     with open(unique_filename, 'a') as outFile:
         # bal is unused unless you use the code snippet commented out below
         # printVals will print every single address and private key generated (which is useful for piping into files) but can mess up the progress bar's display (nonfatal issue)
@@ -182,7 +182,15 @@ def generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, 
             privateKey = generatePrivateKey()
             walletAddress = privateKeyToEthereumWallet(privateKey)
             if printVals == True:
-                outFile.write(f"{walletAddress}\t:\t{privateKey}\n")
+
+                # value_when_true if condition else value_when_false
+                # fruit = 'Apple'
+                # isApple = True if fruit == 'Apple' else False
+                if count:
+                    txCount = getTransactionCount(walletAddress, 0, 99999999, "asc")
+                else:
+                    txCount = -1 # Need to assign this before referencing it below
+                outFile.write(f"{walletAddress}\t:\t{privateKey}\t:\t{txCount}\n") if count else outFile.write(f"{walletAddress}\t:\t{privateKey}\n")
             if saveAll == True:
                 savedAddresses.append(walletAddress)
                 savedKeys.append(privateKey)
@@ -227,8 +235,8 @@ def checkBalances_File(unique_filename):
         n = 20
         dividedList = [savedAddresses[i * n:(i + 1) * n] for i in range((len(savedAddresses) + n - 1) // n )]
         outFile.write(f"\n-----Generated {amountToGen} unique addresses-----")
-        outFile.write(f"-----Divided list into {len(dividedList)} sets of {n} addresses-----")
-        outFile.write("Checking Ether Values...")
+        outFile.write(f"\n-----Divided list into {len(dividedList)} sets of {n} addresses-----")
+        outFile.write("\nChecking Ether Values...")
         # hits will hold the number of addresses that had Ether in them, if any
         hits = 0
 
@@ -265,9 +273,39 @@ def checkBalances_File(unique_filename):
         outFile.write(f"\nAmount of wallets not checked: {failedCount * n}\t[Due to Etherscan.io rate limiting]")
     
 
+def getTransactionCount(address, startBlock, endBlock, sortStr, consolePrint=False):
+    try:
+        txList = eth.get_normal_txs_by_address(address, startBlock, endBlock, sortStr)
+        print(f"{len(txList)} transaction(s) for {address}") if consolePrint else len(txList) # Need an else statement so doing this to accomplish nothing 
 
-
-
+        '''
+        print(txList[i][k]) where i is transaction index in list, k is a (string) dictionary key from below
+        ____Dictionary Keys____
+            "blockNumber"
+            "timeStamp"
+            "hash"
+            "nonce"
+            "blockHash"
+            "transactionIndex"
+            "from"
+            "to"
+            "value"
+            "gas"
+            "gasPrice"
+            "isError"
+            "txreceipt_status"
+            "input"
+            "contractAddress"
+            "cumulativeGasUsed"
+            "gasUsed"
+            "confirmations"
+        '''
+        return len(txList)
+    except AssertionError:
+        if consolePrint:
+            print(f"No transactions for {address}")
+        return 0
+    
 
 
 # These functions are used to be imported to streamline the flask implementation
@@ -302,6 +340,20 @@ def runGen():
         end = time.time()
         print("Time Elapsed (seconds):", end - start)
     
+def runTransCount():
+    if intoFile == True:
+        time_now  = datetime.datetime.now().strftime('%m_%d_%Y_%H_%M_%S__') 
+        unique_filename = "webServer/static/" + time_now+ str(uuid.uuid4()) + '.log'
+        start = time.time()
+        generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, printVals=True, saveAll=True, unique_filename=unique_filename,count=True)
+        end = time.time()
+        print("Time Elapsed (seconds):", end - start)
+    else:
+        start = time.time()
+        generateWallets(amount=amountToGen, bal=False, search=searchAddresses, printVals=True, saveAll=True, count=True)
+        end = time.time()
+        print("Time Elapsed (seconds):", end - start)
+
 
 '''
 if __name__ == '__main__':
@@ -314,3 +366,11 @@ if __name__ == '__main__':
         # This will help separate outputs if desired
         print("~~~~~~END_OF_RUN~~~~~~") 
 '''
+
+if __name__ == '__main__':
+    #getTransactionCount_File()
+    tx = getTransactionCount('0x73BCEb1Cd57C711feaC4224D062b0F6ff338501e', 0, 99999999, "asc", consolePrint=True)
+    if tx == 0:
+        print(tx)
+    else:
+        print(tx)
