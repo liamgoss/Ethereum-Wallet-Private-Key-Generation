@@ -1,3 +1,7 @@
+#!/home/Ethereum-Wallet-Private-Key-Generation/nullenv/bin/python
+# Added above Shebang for my linux service that auto runs this via crontab
+# Will it mess things up for running normally? Unsure, but remove if desired
+
 from json import load
 from flask import Flask, current_app, redirect, render_template, send_file, send_from_directory, url_for, abort
 import os, sys, threading
