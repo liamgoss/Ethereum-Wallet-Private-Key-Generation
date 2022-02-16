@@ -1,9 +1,12 @@
 from json import load
-from flask import Flask, redirect, render_template, send_file, send_from_directory, url_for, abort
+from flask import Flask, current_app, redirect, render_template, send_file, send_from_directory, url_for, abort
 import os, sys, threading
+from pathlib import Path
 
-cwd = os.getcwd()
-sys.path.append(os.path.join(cwd, 'V2'))
+currentLocation = Path(__file__).parent.resolve()
+
+currentLocation = str(currentLocation)[:-10]
+sys.path.append(os.path.join(currentLocation, 'V2'))
 
 from generateAndCheck import runAll, runGen, runTransCount
 
