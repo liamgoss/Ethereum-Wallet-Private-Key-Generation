@@ -7,7 +7,7 @@ from pprint import pprint
 import blocksmith, time, sys, os, uuid, datetime
 from dotenv import load_dotenv
 from etherscan import Etherscan
-
+from pathlib import Path
 
 ##############################################
 # Author: https://github.com/liamgoss        #
@@ -311,8 +311,7 @@ def getTransactionCount(address, startBlock, endBlock, sortStr, consolePrint=Fal
 # These functions are used to be imported to streamline the flask implementation
 def runAll():
     if intoFile == True:
-        time_now  = datetime.datetime.now().strftime('%m_%d_%Y_%H_%M_%S__') 
-        unique_filename = "webServer/static/" + time_now + str(uuid.uuid4()) + '.log'
+        unique_filename = os.path.join(str(Path(__file__).parent.resolve())[:-2], str("webServer/static/" + datetime.datetime.now().strftime('%m_%d_%Y_%H_%M_%S__') + str(uuid.uuid4()) + '.log'))
         start = time.time()
         generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, printVals=True, saveAll=True, unique_filename=unique_filename)
         checkBalances_File(unique_filename)
@@ -328,8 +327,7 @@ def runAll():
 
 def runGen():
     if intoFile == True:
-        time_now  = datetime.datetime.now().strftime('%m_%d_%Y_%H_%M_%S__') 
-        unique_filename = "webServer/static/" + time_now+ str(uuid.uuid4()) + '.log'
+        unique_filename = os.path.join(str(Path(__file__).parent.resolve())[:-2], str("webServer/static/" + datetime.datetime.now().strftime('%m_%d_%Y_%H_%M_%S__') + str(uuid.uuid4()) + '.log'))
         start = time.time()
         generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, printVals=True, saveAll=True, unique_filename=unique_filename)
         end = time.time()
@@ -342,8 +340,7 @@ def runGen():
     
 def runTransCount():
     if intoFile == True:
-        time_now  = datetime.datetime.now().strftime('%m_%d_%Y_%H_%M_%S__') 
-        unique_filename = "webServer/static/" + time_now+ str(uuid.uuid4()) + '.log'
+        unique_filename = os.path.join(str(Path(__file__).parent.resolve())[:-2], str("webServer/static/" + datetime.datetime.now().strftime('%m_%d_%Y_%H_%M_%S__') + str(uuid.uuid4()) + '.log'))
         start = time.time()
         generateWallets_File(amount=amountToGen, bal=False, search=searchAddresses, printVals=True, saveAll=True, unique_filename=unique_filename,count=True)
         end = time.time()
@@ -368,9 +365,11 @@ if __name__ == '__main__':
 '''
 
 if __name__ == '__main__':
-    #getTransactionCount_File()
+    
     tx = getTransactionCount('0x73BCEb1Cd57C711feaC4224D062b0F6ff338501e', 0, 99999999, "asc", consolePrint=True)
     if tx == 0:
         print(tx)
     else:
         print(tx)
+    
+    
