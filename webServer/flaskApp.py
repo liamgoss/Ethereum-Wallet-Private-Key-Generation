@@ -3,7 +3,8 @@ from flask import Flask, redirect, render_template, send_file, send_from_directo
 import os, sys, threading
 
 cwd = os.getcwd()
-sys.path.insert(0, os.path.join(cwd, 'V2'))
+sys.path.append(os.path.join(cwd, 'V2'))
+
 from generateAndCheck import runAll, runGen, runTransCount
 
 app = Flask(__name__)
